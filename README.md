@@ -60,7 +60,7 @@ docker compose down
 
 Os dados do PostgreSQL ficam no volume `futpontos_pgdata`. Para apagar também os dados locais, use `docker compose down -v`.
 
-No Easypanel, é possível apontar o serviço da API para este repositório e usar `api/Dockerfile`. O PostgreSQL deve ser configurado como serviço persistente e a variável `DATABASE_URL` deve apontar para o hostname interno do banco.
+No Easypanel, a configuração padrão pode usar o `Dockerfile` da raiz deste repositório. Ele copia a aplicação de `api/` e expõe a porta `3000`. O PostgreSQL deve ser configurado como serviço persistente e a variável `DATABASE_URL` deve apontar para o hostname interno do banco. O `api/Dockerfile` também está disponível para deploys configurados com caminho personalizado.
 
 ## API principal
 
