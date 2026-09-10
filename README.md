@@ -36,6 +36,32 @@ PORT=3000
 DATABASE_URL=postgresql://usuario:senha@localhost:5432/futpontos
 ```
 
+## Executar com Docker
+
+Com Docker Compose, a API e o PostgreSQL sobem juntos:
+
+```bash
+cp .env.example .env 2>/dev/null || true
+docker compose up -d --build
+curl http://localhost:3000/health
+```
+
+Para acompanhar os logs:
+
+```bash
+docker compose logs -f api
+```
+
+Para parar os serviços:
+
+```bash
+docker compose down
+```
+
+Os dados do PostgreSQL ficam no volume `futpontos_pgdata`. Para apagar também os dados locais, use `docker compose down -v`.
+
+No Easypanel, é possível apontar o serviço da API para este repositório e usar `api/Dockerfile`. O PostgreSQL deve ser configurado como serviço persistente e a variável `DATABASE_URL` deve apontar para o hostname interno do banco.
+
 ## API principal
 
 ```text

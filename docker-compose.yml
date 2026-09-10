@@ -1,0 +1,34 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: futpontos-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: futpontos
+      POSTGRES_USER: futpontos
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-futpontos_local}
+    volumes:
+      - futpontos_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U futpontos -d futpontos"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build:
+      context: ./api
+    container_name: futpontos-api
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      PORT: 3000
+      DATABASE_URL: postgresql://futpontos:${POSTGRES_PASSWORD:-futpontos_local}@db:5432/futpontos
+      CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:8080}
+    ports:
+      - "${API_PORT:-3000}:3000"
+
+volumes:
+  futpontos_pgdata:

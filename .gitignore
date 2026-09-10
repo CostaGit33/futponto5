@@ -1,0 +1,13 @@
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Node
+node_modules/
+npm-debug.log*
+
+# Local data and logs
+*.log
+postgres-data/
+.DS_Store
